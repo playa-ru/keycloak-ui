@@ -18,6 +18,14 @@ export const ExtendedFieldsForm = ({ providerId }: ExtendedFieldsFormProps) => {
       return <GithubFields />;
     case "google":
       return <GoogleFields />;
+    case "vk":
+      return <VkFields />;
+    case "ok":
+      return <OkFields />;
+    case "mailru":
+      return <MailRuFields />;
+    case "yandex":
+      return <YandexFields />;
     case "openshift-v3":
     case "openshift-v4":
       return <OpenshiftFields />;
@@ -91,6 +99,174 @@ const GithubFields = () => {
           id="apiUrl"
           type="url"
           {...register("config.apiUrl")}
+        />
+      </FormGroup>
+    </>
+  );
+};
+
+const YandexFields = () => {
+  const { t } = useTranslation("identity-providers");
+  const { register } = useFormContext();
+
+  return (
+    <FormGroup
+      label={t("yandex.hostedDomain")}
+      labelIcon={
+        <HelpItem
+          helpText="identity-providers-help:yandex:hostedDomain"
+          fieldLabelId="identity-providers:yandex:hostedDomain"
+        />
+      }
+      fieldId="yandexHostedDomain"
+    >
+      <KeycloakTextInput
+        id="yandexHostedDomain"
+        {...register("config.hostedDomain")}
+      />
+    </FormGroup>
+  );
+};
+
+const MailRuFields = () => {
+  const { t } = useTranslation("identity-providers");
+  const { register } = useFormContext();
+
+  return (
+    <FormGroup
+      label={t("mailru.hostedDomain")}
+      labelIcon={
+        <HelpItem
+          helpText="identity-providers-help:mailru:hostedDomain"
+          fieldLabelId="identity-providers:mailru:hostedDomain"
+        />
+      }
+      fieldId="mailruHostedDomain"
+    >
+      <KeycloakTextInput
+        id="mailruHostedDomain"
+        {...register("config.hostedDomain")}
+      />
+    </FormGroup>
+  );
+};
+
+const OkFields = () => {
+  const { t } = useTranslation("identity-providers");
+  const { register, control } = useFormContext();
+
+  return (
+    <>
+      <FormGroup
+        label={t("ok.publicKey")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:ok:publicKey"
+            fieldLabelId="identity-providers:ok:publicKey"
+          />
+        }
+        fieldId="okPublicKey"
+      >
+        <KeycloakTextInput
+          id="okPublicKey"
+          isRequired
+          {...register("config.publicKey", { required: true })}
+        />
+      </FormGroup>
+
+      <FormGroup
+        label={t("ok.emailRequired")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:ok:emailRequired"
+            fieldLabelId="identity-providers:ok:emailRequired"
+          />
+        }
+        fieldId="okEmailRequired"
+      >
+        <Controller
+          name="config.emailRequired"
+          defaultValue="false"
+          control={control}
+          render={({ field }) => (
+            <Switch
+              id="okEmailRequired"
+              label={t("common:on")}
+              labelOff={t("common:off")}
+              isChecked={field.value === "true"}
+              onChange={(value) => field.onChange(value.toString())}
+              aria-label={t("ok.emailRequired")}
+            />
+          )}
+        />
+      </FormGroup>
+    </>
+  );
+};
+
+const VkFields = () => {
+  const { t } = useTranslation("identity-providers");
+  const { register, control } = useFormContext();
+
+  return (
+    <>
+      <FormGroup
+        label={t("vk.version")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:vk:version"
+            fieldLabelId="identity-providers:vk:version"
+          />
+        }
+        fieldId="vkVersion"
+      >
+        <KeycloakTextInput
+          id="vkVersion"
+          isRequired
+          {...register("config.version", { required: true })}
+        />
+      </FormGroup>
+
+      <FormGroup
+        label={t("vk.fetchedFields")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:vk:fetchedFields"
+            fieldLabelId="identity-providers:vk:fetchedFields"
+          />
+        }
+        fieldId="vkFetchedFields"
+      >
+        <KeycloakTextInput
+          id="vkFetchedFields"
+          {...register("config.fetchedFields")}
+        />
+      </FormGroup>
+
+      <FormGroup
+        label={t("vk.emailRequired")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:vk:emailRequired"
+            fieldLabelId="identity-providers:vk:emailRequired"
+          />
+        }
+        fieldId="vkEmailRequired"
+      >
+        <Controller
+          name="config.emailRequired"
+          defaultValue="false"
+          control={control}
+          render={({ field }) => (
+            <Switch
+              id="vkEmailRequired"
+              label={t("common:on")}
+              labelOff={t("common:off")}
+              isChecked={field.value === "true"}
+              onChange={(value) => field.onChange(value.toString())}
+              aria-label={t("vk.emailRequired")}
+            />
+          )}
         />
       </FormGroup>
     </>

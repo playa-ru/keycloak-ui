@@ -195,5 +195,20 @@
   },
   "linkedin": {
     "profileProjection": "Profile Projection"
+  },
+  "mailru": {
+    "hostedDomain": "Hosted Domain"
+  },
+  "yandex": {
+    "hostedDomain": "Hosted Domain"
+  },
+  "ok": {
+    "publicKey": "Application's public key",
+    "emailRequired": "Email required"
+  },
+  "vk": {
+    "version": "API Version",
+    "emailRequired": "Email required",
+    "fetchedFields": "Additional user's profile fields"
   }
 }
