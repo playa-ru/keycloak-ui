@@ -130,5 +130,12 @@
     "version": "VK API version",
     "emailRequired": "Email required in your profile",
     "fetchedFields": "Provide additional fields which would be fetched using the profile request"
+  },
+  "esiajcp": {
+    "host": "ESIA Host",
+    "algorithm": "Algorithm",
+    "keyStore": "Container type",
+    "ksAlias": "Container ID",
+    "password": "Password to Primary Key"
   }
 }

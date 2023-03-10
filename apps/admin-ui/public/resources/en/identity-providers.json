@@ -210,5 +210,12 @@
     "version": "API Version",
     "emailRequired": "Email required",
     "fetchedFields": "Additional user's profile fields"
+  },
+  "esiajcp": {
+    "host": "ESIA Host",
+    "algorithm": "Algorithm",
+    "keyStore": "Container type",
+    "ksAlias": "Container ID",
+    "password": "Password to Primary Key"
   }
 }

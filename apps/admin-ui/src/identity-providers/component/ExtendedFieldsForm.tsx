@@ -1,10 +1,19 @@
 import IdentityProviderRepresentation from "@keycloak/keycloak-admin-client/lib/defs/identityProviderRepresentation";
-import { FormGroup, Switch, ValidatedOptions } from "@patternfly/react-core";
+import {
+  FormGroup,
+  Select,
+  SelectOption,
+  SelectVariant,
+  Switch,
+  ValidatedOptions,
+} from "@patternfly/react-core";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 import { HelpItem } from "../../components/help-enabler/HelpItem";
 import { KeycloakTextInput } from "../../components/keycloak-text-input/KeycloakTextInput";
+import { useState } from "react";
+import { PasswordInput } from "../../components/password-input/PasswordInput";
 
 type ExtendedFieldsFormProps = {
   providerId: string;
@@ -26,6 +35,8 @@ export const ExtendedFieldsForm = ({ providerId }: ExtendedFieldsFormProps) => {
       return <MailRuFields />;
     case "yandex":
       return <YandexFields />;
+    case "esiajcp":
+      return <EsiaJcpFields />;
     case "openshift-v3":
     case "openshift-v4":
       return <OpenshiftFields />;
@@ -38,6 +49,153 @@ export const ExtendedFieldsForm = ({ providerId }: ExtendedFieldsFormProps) => {
     default:
       return null;
   }
+};
+
+const EsiaJcpFields = () => {
+  const { t } = useTranslation("identity-providers");
+  const { register, control } = useFormContext();
+  const [isEsiaJcpKeyStoreDropdownOpen, setIsEsiaJcpKeyStoreDropdownOpen] =
+    useState(false);
+  const [isEsiaJcpAlgorithmDropdownOpen, setIsEsiaJcpAlgorithmDropdownOpen] =
+    useState(false);
+
+  return (
+    <>
+      <FormGroup
+        label={t("esiajcp.host")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:esiajcp:host"
+            fieldLabelId="identity-providers:esiajcp:host"
+          />
+        }
+        fieldId="esiajcpHost"
+      >
+        <KeycloakTextInput
+          id="esiajcpHost"
+          isRequired
+          {...register("config.host", { required: true })}
+        />
+      </FormGroup>
+
+      <FormGroup
+        label={t("esiajcp.algorithm")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:esiajcp:algorithm"
+            fieldLabelId="identity-providers:esiajcp:algorithm"
+          />
+        }
+        fieldId="esiajcpAlgorithm"
+      >
+        <Controller
+          name="config.algorithm"
+          defaultValue="GOST3411_2012_256withGOST3410_2012_256"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <Select
+              toggleId="kc-edit-mode"
+              required
+              onToggle={() =>
+                setIsEsiaJcpAlgorithmDropdownOpen(
+                  !isEsiaJcpAlgorithmDropdownOpen
+                )
+              }
+              isOpen={isEsiaJcpAlgorithmDropdownOpen}
+              onSelect={(_, value) => {
+                field.onChange(value as string);
+                setIsEsiaJcpAlgorithmDropdownOpen(false);
+              }}
+              selections={field.value}
+              variant={SelectVariant.single}
+            >
+              <SelectOption
+                key={0}
+                value="GOST3411_2012_512withGOST3410_2012_512"
+                isPlaceholder
+              >
+                ГОСТ Р 34.10-2012 (512)
+              </SelectOption>
+              <SelectOption
+                key={1}
+                value="GOST3411_2012_256withGOST3410_2012_256"
+              >
+                ГОСТ Р 34.10-2012 (256)
+              </SelectOption>
+            </Select>
+          )}
+        />
+      </FormGroup>
+
+      <FormGroup
+        label={t("esiajcp.keyStore")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:esiajcp:keyStore"
+            fieldLabelId="identity-providers:esiajcp:keyStore"
+          />
+        }
+        fieldId="esiajcpKeyStore"
+      >
+        <Controller
+          name="config.keyStore"
+          defaultValue="HDImageStore"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <Select
+              toggleId="kc-edit-mode"
+              required
+              onToggle={() =>
+                setIsEsiaJcpKeyStoreDropdownOpen(!isEsiaJcpKeyStoreDropdownOpen)
+              }
+              isOpen={isEsiaJcpKeyStoreDropdownOpen}
+              onSelect={(_, value) => {
+                field.onChange(value as string);
+                setIsEsiaJcpKeyStoreDropdownOpen(false);
+              }}
+              selections={field.value}
+              variant={SelectVariant.single}
+            >
+              <SelectOption key={0} value="HDImageStore" isPlaceholder />
+              <SelectOption key={1} value="RuTokenStore" />
+            </Select>
+          )}
+        />
+      </FormGroup>
+
+      <FormGroup
+        label={t("esiajcp.ksAlias")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:esiajcp:ksAlias"
+            fieldLabelId="identity-providers:esiajcp:ksAlias"
+          />
+        }
+        fieldId="esiajcpKsAlias"
+      >
+        <KeycloakTextInput
+          id="esiajcpKsAlias"
+          isRequired
+          {...register("config.ksAlias", { required: true })}
+        />
+      </FormGroup>
+
+      <FormGroup
+        label={t("esiajcp.password")}
+        labelIcon={
+          <HelpItem
+            helpText="identity-providers-help:esiajcp:password"
+            fieldLabelId="identity-providers:esiajcp:password"
+          />
+        }
+        fieldId="esiajcpPassword"
+      >
+        <PasswordInput id="esiajcpPassword" {...register("config.password")} />
+      </FormGroup>
+    </>
+  );
 };
 
 const FacebookFields = () => {
