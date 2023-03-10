@@ -32,6 +32,11 @@
         <keycloak.version>21.0.0</keycloak.version>
 
         <admin-ui.path>../apps/admin-ui</admin-ui.path>
+
+        <version.javadoc.plugin>2.10.1</version.javadoc.plugin>
+        <version.deploy.plugin>2.8.2</version.deploy.plugin>
+        <version.source.plugin>2.4</version.source.plugin>
+        <version.release.plugin>2.5.3</version.release.plugin>
     </properties>
 
     <licenses>
@@ -45,9 +50,9 @@
     <url>http://keycloak.org</url>
 
     <scm>
-        <connection>scm:git:git://github.com/keycloak/keycloak-admin-ui.git</connection>
-        <developerConnection>scm:git:git@github.com:keycloak/keycloak-admin-ui.git</developerConnection>
-        <url>https://github.com/keycloak/keycloak-admin-ui/tree/master/</url>
+        <connection>scm:git:git://github.com/playa-ru/keycloak-ui.git</connection>
+        <developerConnection>scm:git:git@github.com:playa-ru/keycloak-ui.git</developerConnection>
+        <url>https://github.com/playa-ru/keycloak-ui/tree/main/</url>
     </scm>
 
     <developers>
@@ -98,6 +103,43 @@
     </dependencies>
 
     <profiles>
+        <profile>
+            <id>playa</id>
+            <distributionManagement>
+                <repository>
+                    <id>playa-releases</id>
+                    <name>playa-repositories</name>
+                    <url>https://nexus.playa.ru/nexus/content/repositories/releases/</url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <finalName>${project.artifactId}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${version.deploy.plugin}</version>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>${version.release.plugin}</version>
+                        <configuration>
+                            <tagNameFormat>v@{project.version}</tagNameFormat>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <preparationGoals>clean</preparationGoals>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.maven.scm</groupId>
+                                <artifactId>maven-scm-provider-gitexe</artifactId>
+                                <version>1.9.5</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release</id>
             <build>
