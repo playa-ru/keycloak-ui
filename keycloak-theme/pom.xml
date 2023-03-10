@@ -50,9 +50,9 @@
     <url>http://keycloak.org</url>
 
     <scm>
-        <connection>scm:git:git://github.com/playa-ru/keycloak-ui.git</connection>
+        <url>scm:git:git@github.com:playa-ru/keycloak-ui.git</url>
         <developerConnection>scm:git:git@github.com:playa-ru/keycloak-ui.git</developerConnection>
-        <url>https://github.com/playa-ru/keycloak-ui/tree/main/</url>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>
