@@ -181,11 +181,6 @@
         </profile>
         <profile>
             <id>nexus</id>
-            <activation>
-                <property>
-                    <name>!skipNexus</name>
-                </property>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
