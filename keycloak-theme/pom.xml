@@ -20,7 +20,7 @@
 
     <groupId>org.keycloak</groupId>
     <artifactId>keycloak-admin-ui</artifactId>
-    <version>1.0.3</version>
+    <version>999.0.0-SNAPSHOT</version>
     <name>Keycloak Administration UI</name>
     <description>Keycloak Administration UI</description>
 
@@ -51,7 +51,7 @@
     <scm>
         <url>scm:git:git@github.com:playa-ru/keycloak-ui.git</url>
         <developerConnection>scm:git:git@github.com:playa-ru/keycloak-ui.git</developerConnection>
-        <tag>v1.0.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>
