@@ -2,7 +2,7 @@ import { FormGroup } from "@patternfly/react-core";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-import { HelpItem } from "../../components/help-enabler/HelpItem";
+import { HelpItem } from "ui-shared";
 import { KeycloakTextInput } from "../../components/keycloak-text-input/KeycloakTextInput";
 import { MultiLineInput } from "../../components/multi-line-input/MultiLineInput";
 import { useRealm } from "../../context/realm-context/RealmContext";
@@ -12,10 +12,12 @@ import { FormFields } from "../ClientDetails";
 
 type LoginSettingsProps = {
   protocol?: string;
+  isDisabled?: boolean;
 };
 
 export const LoginSettings = ({
   protocol = "openid-connect",
+  ...rest
 }: LoginSettingsProps) => {
   const { t } = useTranslation("clients");
   const { register, watch } = useFormContext<FormFields>();
@@ -31,7 +33,7 @@ export const LoginSettings = ({
         fieldId="kc-root-url"
         labelIcon={
           <HelpItem
-            helpText="clients-help:rootURL"
+            helpText={t("clients-help:rootURL")}
             fieldLabelId="clients:rootUrl"
           />
         }
@@ -40,6 +42,7 @@ export const LoginSettings = ({
           id="kc-root-url"
           type="url"
           {...register("rootUrl")}
+          {...rest}
         />
       </FormGroup>
       <FormGroup
@@ -47,7 +50,7 @@ export const LoginSettings = ({
         fieldId="kc-home-url"
         labelIcon={
           <HelpItem
-            helpText="clients-help:homeURL"
+            helpText={t("clients-help:homeURL")}
             fieldLabelId="clients:homeURL"
           />
         }
@@ -56,6 +59,7 @@ export const LoginSettings = ({
           id="kc-home-url"
           type="url"
           {...register("baseUrl")}
+          {...rest}
         />
       </FormGroup>
       <FormGroup
@@ -63,7 +67,7 @@ export const LoginSettings = ({
         fieldId="kc-redirect"
         labelIcon={
           <HelpItem
-            helpText="clients-help:validRedirectURIs"
+            helpText={t("clients-help:validRedirectURIs")}
             fieldLabelId="clients:validRedirectUri"
           />
         }
@@ -73,6 +77,7 @@ export const LoginSettings = ({
           name="redirectUris"
           aria-label={t("validRedirectUri")}
           addButtonLabel="clients:addRedirectUri"
+          {...rest}
         />
       </FormGroup>
       <FormGroup
@@ -80,7 +85,7 @@ export const LoginSettings = ({
         fieldId="kc-postLogoutRedirect"
         labelIcon={
           <HelpItem
-            helpText="clients-help:validPostLogoutRedirectURIs"
+            helpText={t("clients-help:validPostLogoutRedirectURIs")}
             fieldLabelId="clients:validPostLogoutRedirectUri"
           />
         }
@@ -93,6 +98,7 @@ export const LoginSettings = ({
           aria-label={t("validPostLogoutRedirectUri")}
           addButtonLabel="clients:addPostLogoutRedirectUri"
           stringify
+          {...rest}
         />
       </FormGroup>
       {protocol === "saml" && (
@@ -102,7 +108,7 @@ export const LoginSettings = ({
             fieldId="idpInitiatedSsoUrlName"
             labelIcon={
               <HelpItem
-                helpText="clients-help:idpInitiatedSsoUrlName"
+                helpText={t("clients-help:idpInitiatedSsoUrlName")}
                 fieldLabelId="clients:idpInitiatedSsoUrlName"
               />
             }
@@ -117,6 +123,7 @@ export const LoginSettings = ({
               id="idpInitiatedSsoUrlName"
               data-testid="idpInitiatedSsoUrlName"
               {...register("attributes.saml_idp_initiated_sso_url_name")}
+              {...rest}
             />
           </FormGroup>
           <FormGroup
@@ -124,7 +131,7 @@ export const LoginSettings = ({
             fieldId="idpInitiatedSsoRelayState"
             labelIcon={
               <HelpItem
-                helpText="clients-help:idpInitiatedSsoRelayState"
+                helpText={t("clients-help:idpInitiatedSsoRelayState")}
                 fieldLabelId="clients:idpInitiatedSsoRelayState"
               />
             }
@@ -133,6 +140,7 @@ export const LoginSettings = ({
               id="idpInitiatedSsoRelayState"
               data-testid="idpInitiatedSsoRelayState"
               {...register("attributes.saml_idp_initiated_sso_relay_state")}
+              {...rest}
             />
           </FormGroup>
           <FormGroup
@@ -140,7 +148,7 @@ export const LoginSettings = ({
             fieldId="masterSamlProcessingUrl"
             labelIcon={
               <HelpItem
-                helpText="clients-help:masterSamlProcessingUrl"
+                helpText={t("clients-help:masterSamlProcessingUrl")}
                 fieldLabelId="clients:masterSamlProcessingUrl"
               />
             }
@@ -150,6 +158,7 @@ export const LoginSettings = ({
               type="url"
               data-testid="masterSamlProcessingUrl"
               {...register("adminUrl")}
+              {...rest}
             />
           </FormGroup>
         </>
@@ -160,7 +169,7 @@ export const LoginSettings = ({
           fieldId="kc-web-origins"
           labelIcon={
             <HelpItem
-              helpText="clients-help:webOrigins"
+              helpText={t("clients-help:webOrigins")}
               fieldLabelId="clients:webOrigins"
             />
           }
@@ -170,6 +179,7 @@ export const LoginSettings = ({
             name="webOrigins"
             aria-label={t("webOrigins")}
             addButtonLabel="clients:addWebOrigins"
+            {...rest}
           />
         </FormGroup>
       )}

@@ -39,7 +39,7 @@ export const GroupTable = ({
   const [showDelete, toggleShowDelete] = useToggle();
   const [move, setMove] = useState<GroupRepresentation>();
 
-  const { subGroups, currentGroup, setSubGroups } = useSubGroups();
+  const { currentGroup } = useSubGroups();
 
   const [key, setKey] = useState(0);
   const refresh = () => setKey(key + 1);
@@ -85,20 +85,6 @@ export const GroupTable = ({
     }
 
     return groupsData || [];
-  };
-
-  const GroupNameCell = (group: GroupRepresentation) => {
-    if (!canViewDetails) return <span>{group.name}</span>;
-
-    return (
-      <Link
-        key={group.id}
-        to={`${location.pathname}/${group.id}`}
-        onClick={() => setSubGroups([...subGroups, group])}
-      >
-        {group.name}
-      </Link>
-    );
   };
 
   return (
@@ -221,7 +207,18 @@ export const GroupTable = ({
           {
             name: "name",
             displayKey: "groups:groupName",
-            cellRenderer: GroupNameCell,
+            cellRenderer: (group) =>
+              canViewDetails ? (
+                <Link
+                  key={group.id}
+                  to={`${location.pathname}/${group.id}`}
+                  onClick={() => navigate(toGroups({ realm, id: group.id }))}
+                >
+                  {group.name}
+                </Link>
+              ) : (
+                <span>{group.name}</span>
+              ),
           },
         ]}
         emptyState={

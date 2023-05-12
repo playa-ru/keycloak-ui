@@ -16,6 +16,7 @@ import { useAlerts } from "../components/alert/Alerts";
 import { useConfirmDialog } from "../components/confirm-dialog/ConfirmDialog";
 import { ListEmptyState } from "../components/list-empty-state/ListEmptyState";
 import {
+  Action,
   Field,
   KeycloakDataTable,
   LoaderFunction,
@@ -39,6 +40,7 @@ export type SessionsTableProps = {
   emptyInstructions?: string;
   logoutUser?: string;
   filter?: ReactNode;
+  isSearching?: boolean;
 };
 
 const UsernameCell = (row: UserSessionRepresentation) => {
@@ -71,6 +73,7 @@ export default function SessionsTable({
   emptyInstructions,
   logoutUser,
   filter,
+  isSearching,
 }: SessionsTableProps) {
   const { realm } = useRealm();
   const { whoAmI } = useWhoAmI();
@@ -150,6 +153,7 @@ export default function SessionsTable({
         loader={loader}
         ariaLabelKey="sessions:title"
         searchPlaceholderKey="sessions:searchForSession"
+        isSearching={isSearching}
         searchTypeComponent={filter}
         toolbarItem={
           logoutUser && (
@@ -165,7 +169,7 @@ export default function SessionsTable({
           {
             title: t("common:signOut"),
             onRowClick: onClickSignOut,
-          },
+          } as Action<UserSessionRepresentation>,
         ]}
         emptyState={
           <ListEmptyState

@@ -58,6 +58,7 @@ type UserEventSearchForm = {
   dateTo: string;
   user: string;
   type: EventType[];
+  authIpAddress: string;
 };
 
 const defaultValues: UserEventSearchForm = {
@@ -66,6 +67,7 @@ const defaultValues: UserEventSearchForm = {
   dateTo: "",
   user: "",
   type: [],
+  authIpAddress: "",
 };
 
 const StatusRow = (event: EventRepresentation) =>
@@ -90,8 +92,37 @@ const DetailCell = (event: EventRepresentation) => (
           <DescriptionListDescription>{value}</DescriptionListDescription>
         </DescriptionListGroup>
       ))}
+    {event.error && (
+      <DescriptionListGroup key="error">
+        <DescriptionListTerm>error</DescriptionListTerm>
+        <DescriptionListDescription>{event.error}</DescriptionListDescription>
+      </DescriptionListGroup>
+    )}
   </DescriptionList>
 );
+
+const UserDetailLink = (event: EventRepresentation) => {
+  const { t } = useTranslation("events");
+  const { realm } = useRealm();
+
+  return (
+    <>
+      {event.userId && (
+        <Link
+          key={`link-${event.time}-${event.type}`}
+          to={toUser({
+            realm,
+            id: event.userId,
+            tab: "settings",
+          })}
+        >
+          {event.userId}
+        </Link>
+      )}
+      {!event.userId && t("noUserDetails")}
+    </>
+  );
+};
 
 export default function EventsSection() {
   const { t } = useTranslation("events");
@@ -112,6 +143,7 @@ export default function EventsSection() {
     dateTo: t("dateTo"),
     user: t("userId"),
     type: t("eventType"),
+    authIpAddress: t("ipAddress"),
   };
 
   const {
@@ -192,24 +224,6 @@ export default function EventsSection() {
   function refresh() {
     commitFilters();
   }
-
-  const UserDetailLink = (event: EventRepresentation) => (
-    <>
-      {event.userId && (
-        <Link
-          key={`link-${event.time}-${event.type}`}
-          to={toUser({
-            realm,
-            id: event.userId,
-            tab: "settings",
-          })}
-        >
-          {event.userId}
-        </Link>
-      )}
-      {!event.userId && t("noUserDetails")}
-    </>
-  );
 
   const userEventSearchFormDisplay = () => {
     return (
@@ -356,6 +370,17 @@ export default function EventsSection() {
                       inputProps={{ id: "kc-dateTo" }}
                     />
                   )}
+                />
+              </FormGroup>
+              <FormGroup
+                label={t("ipAddress")}
+                fieldId="kc-ipAddress"
+                className="keycloak__events_search__form_label"
+              >
+                <KeycloakTextInput
+                  id="kc-ipAddress"
+                  data-testid="ipAddress-searchField"
+                  {...register("authIpAddress")}
                 />
               </FormGroup>
               <ActionGroup>

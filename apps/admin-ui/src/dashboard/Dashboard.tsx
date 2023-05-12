@@ -29,7 +29,7 @@ import {
 import { useRealm } from "../context/realm-context/RealmContext";
 import { useServerInfo } from "../context/server-info/ServerInfoProvider";
 import { toUpperCase } from "../util";
-import { HelpItem } from "../components/help-enabler/HelpItem";
+import { HelpItem } from "ui-shared";
 import environment from "../environment";
 import { KeycloakSpinner } from "../components/keycloak-spinner/KeycloakSpinner";
 import useLocaleSort from "../utils/useLocaleSort";
@@ -53,10 +53,10 @@ const EmptyDashboard = () => {
           alt="Keycloak icon"
           className="keycloak__dashboard_icon"
         />
-        <Title headingLevel="h4" size="3xl">
+        <Title headingLevel="h2" size="3xl">
           {t("welcome")}
         </Title>
-        <Title headingLevel="h4" size="4xl">
+        <Title headingLevel="h1" size="4xl">
           {realm}
         </Title>
         <EmptyStateBody>{t("introduction")}</EmptyStateBody>
@@ -207,7 +207,7 @@ const Dashboard = () => {
                             {t("enabledFeatures")}{" "}
                             <HelpItem
                               fieldLabelId="dashboard:enabledFeatures"
-                              helpText="dashboard:infoEnabledFeatures"
+                              helpText={t("dashboard:infoEnabledFeatures")}
                             />
                           </DescriptionListTerm>
                           <DescriptionListDescription>
@@ -233,7 +233,7 @@ const Dashboard = () => {
                             {t("disabledFeatures")}{" "}
                             <HelpItem
                               fieldLabelId="dashboard:disabledFeatures"
-                              helpText="dashboard:infoDisabledFeatures"
+                              helpText={t("dashboard:infoDisabledFeatures")}
                             />
                           </DescriptionListTerm>
                           <DescriptionListDescription>

@@ -13,7 +13,7 @@ export const GeneralSettings = ({
 }: GeneralSettingsProps) => (
   <>
     <RedirectUrl id={id} />
-    <ClientIdSecret create={create} enableClientSecret={!(id === "esiajcp")} />
+    <ClientIdSecret create={create} />
     <DisplayOrder />
   </>
 );

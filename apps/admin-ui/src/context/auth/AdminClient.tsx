@@ -4,8 +4,7 @@ import { DependencyList, useEffect } from "react";
 import { useErrorHandler } from "react-error-boundary";
 
 import environment from "../../environment";
-import { createNamedContext } from "../../utils/createNamedContext";
-import useRequiredContext from "../../utils/useRequiredContext";
+import { createNamedContext, useRequiredContext } from "ui-shared";
 
 export type AdminClientProps = {
   keycloak: Keycloak;
@@ -39,10 +38,11 @@ export function useFetch<T>(
   deps?: DependencyList
 ) {
   const onError = useErrorHandler();
-  const controller = new AbortController();
-  const { signal } = controller;
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
     adminClientCall()
       .then((result) => {
         if (!signal.aborted) {

@@ -23,7 +23,7 @@ import {
   ClientScopeDefaultOptionalType,
 } from "../components/client-scope/ClientScopeTypes";
 import { useConfirmDialog } from "../components/confirm-dialog/ConfirmDialog";
-import { useHelp } from "../components/help-enabler/HelpHeader";
+import { useHelp } from "ui-shared";
 import { KeycloakSpinner } from "../components/keycloak-spinner/KeycloakSpinner";
 import { RoleMapping, Row } from "../components/role-mapping/RoleMapping";
 import {
@@ -271,6 +271,7 @@ export default function EditClientScope() {
                   variant="info"
                   isInline
                   title={t("client-scopes-help:rolesScope")}
+                  component="h2"
                 />
               </PageSection>
             )}

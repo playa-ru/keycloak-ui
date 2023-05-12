@@ -16,7 +16,10 @@ import {
 import { QuestionCircleIcon } from "@patternfly/react-icons";
 
 import type GroupRepresentation from "@keycloak/keycloak-admin-client/lib/defs/groupRepresentation";
-import { KeycloakDataTable } from "../components/table-toolbar/KeycloakDataTable";
+import {
+  Action,
+  KeycloakDataTable,
+} from "../components/table-toolbar/KeycloakDataTable";
 import { useAdminClient, useFetch } from "../context/auth/AdminClient";
 import { ListEmptyState } from "../components/list-empty-state/ListEmptyState";
 import useToggle from "../utils/useToggle";
@@ -26,7 +29,7 @@ import { toUserFederation } from "../user-federation/routes/UserFederation";
 import { useRealm } from "../context/realm-context/RealmContext";
 import { GroupPickerDialog } from "../components/group/GroupPickerDialog";
 import { KeycloakSpinner } from "../components/keycloak-spinner/KeycloakSpinner";
-import { useHelp } from "../components/help-enabler/HelpHeader";
+import { useHelp } from "ui-shared";
 
 export const DefaultsGroupsTab = () => {
   const { t } = useTranslation("realm-settings");
@@ -194,12 +197,12 @@ export const DefaultsGroupsTab = () => {
         actions={[
           {
             title: t("common:remove"),
-            onRowClick: (group: GroupRepresentation) => {
+            onRowClick: (group) => {
               setSelectedRows([group]);
               toggleRemoveDialog();
               return Promise.resolve(false);
             },
-          },
+          } as Action<GroupRepresentation>,
         ]}
         columns={[
           {
@@ -218,7 +221,10 @@ export const DefaultsGroupsTab = () => {
             instructions={
               <Trans i18nKey="realm-settings:noDefaultGroupsInstructions">
                 {" "}
-                <Link to={toUserFederation({ realm })} />
+                <Link
+                  className="pf-u-font-weight-light"
+                  to={toUserFederation({ realm })}
+                />
                 Add groups...
               </Trans>
             }

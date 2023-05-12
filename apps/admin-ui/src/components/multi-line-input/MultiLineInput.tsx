@@ -85,7 +85,7 @@ export const MultiLineInput = ({
             <TextInput
               data-testid={name + index}
               onChange={(value) => updateValue(index, value)}
-              name={`${name}[${index}].value`}
+              name={`${name}.${index}.value`}
               value={value}
               isDisabled={isDisabled}
               {...rest}
@@ -96,7 +96,7 @@ export const MultiLineInput = ({
               onClick={() => remove(index)}
               tabIndex={-1}
               aria-label={t("common:remove")}
-              isDisabled={fields.length === 1}
+              isDisabled={fields.length === 1 || isDisabled}
             >
               <MinusCircleIcon />
             </Button>
@@ -108,7 +108,7 @@ export const MultiLineInput = ({
               tabIndex={-1}
               aria-label={t("common:add")}
               data-testid="addValue"
-              isDisabled={!value}
+              isDisabled={!value || isDisabled}
             >
               <PlusCircleIcon /> {t(addButtonLabel || "common:add")}
             </Button>

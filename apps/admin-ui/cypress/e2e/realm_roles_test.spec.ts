@@ -248,10 +248,10 @@ describe("Realm roles test", () => {
       listingPage.itemExist(editRoleName).goToItemDetails(editRoleName);
 
       createRealmRolePage.goToAttributesTab();
-      keyValue.fillKeyValue({ key: "one", value: "1" }).validateRows(2);
+      keyValue.fillKeyValue({ key: "one", value: "1" }).validateRows(1);
       keyValue.save();
       masthead.checkNotificationMessage("The role has been saved", true);
-      keyValue.validateRows(2);
+      keyValue.validateRows(1);
     });
 
     it("should add attribute multiple", () => {
@@ -259,17 +259,59 @@ describe("Realm roles test", () => {
 
       createRealmRolePage.goToAttributesTab();
       keyValue
-        .fillKeyValue({ key: "two", value: "2" }, 1)
-        .fillKeyValue({ key: "three", value: "3" }, 2)
+        .fillKeyValue({ key: "two", value: "2" })
+        .fillKeyValue({ key: "three", value: "3" })
         .save()
-        .validateRows(4);
+        .validateRows(3);
     });
 
     it("should delete attribute", () => {
       listingPage.itemExist(editRoleName).goToItemDetails(editRoleName);
       createRealmRolePage.goToAttributesTab();
 
-      keyValue.deleteRow(1).save().validateRows(3);
+      keyValue.deleteRow(1).save().validateRows(2);
+    });
+  });
+
+  describe("Accessibility tests for realm roles", () => {
+    beforeEach(() => {
+      loginPage.logIn();
+      keycloakBefore();
+      sidebarPage.goToRealmRoles();
+      cy.injectAxe();
+    });
+
+    const role = "a11y-role";
+
+    it("Check a11y violations on load/ realm roles", () => {
+      cy.checkA11y();
+    });
+
+    it("Check a11y violations on empty create role form", () => {
+      rolesTab.goToCreateRoleFromToolbar();
+      cy.checkA11y();
+    });
+
+    it("Check a11y violations on role details", () => {
+      const permissionSwitch = "permissionSwitch";
+      rolesTab.goToCreateRoleFromToolbar();
+      createRealmRolePage.fillRealmRoleData(role).save();
+      cy.checkA11y();
+
+      rolesTab.goToAttributesTab();
+      cy.checkA11y();
+
+      rolesTab.goToUsersInRoleTab();
+      cy.checkA11y();
+
+      rolesTab.goToPermissionsTab();
+      cy.findByTestId(permissionSwitch).parent().click();
+      cy.checkA11y();
+
+      sidebarPage.goToRealmRoles();
+      listingPage.deleteItem(role);
+      cy.checkA11y();
+      cy.findByTestId("confirm").click();
     });
   });
 });

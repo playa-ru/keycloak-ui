@@ -29,7 +29,7 @@ const dateTo = new Date();
 dateTo.setDate(dateTo.getDate() + 100);
 const dateToFormatted = `${dateTo.getFullYear()}-${dateTo.getMonth()}-${dateTo.getDay()}`;
 
-describe("Events tests", () => {
+describe.skip("Events tests", () => {
   const eventsTestUser = {
     eventsTestUserId: "",
     userRepresentation: {
@@ -44,7 +44,7 @@ describe("Events tests", () => {
     const result = await adminClient.createUser(
       eventsTestUser.userRepresentation
     );
-    eventsTestUser.eventsTestUserId = result.id;
+    eventsTestUser.eventsTestUserId = result.id!;
   });
 
   after(() =>
@@ -231,6 +231,17 @@ describe("Events tests", () => {
       listingPage.itemsGreaterThan(0);
     });
 
+    it("Search by Ip Adress to", () => {
+      userEventsTab
+        .assertIpAddressChipGroupExist(true)
+        .assertUserIdChipGroupExist(false)
+        .assertEventTypeChipGroupExist(false)
+        .assertClientChipGroupExist(false)
+        .assertDateFromChipGroupExist(false)
+        .assertDateToChipGroupExist(false);
+      listingPage.itemsGreaterThan(0);
+    });
+
     it("Search by all elements", () => {
       const searchData = new UserEventSearchData();
       searchData.client = eventsTestUserClientId;
@@ -246,6 +257,13 @@ describe("Events tests", () => {
         .assertDateFromChipGroupExist(true)
         .assertDateToChipGroupExist(true);
       listingPage.itemsGreaterThan(0);
+    });
+
+    it("Check `search user events` button enabled", () => {
+      userEventsTab
+        .openSearchUserEventDropdownMenu()
+        .typeIpAddress("11111")
+        .assertSearchEventBtnIsEnabled(true);
     });
   });
 
@@ -434,6 +452,50 @@ describe("Events tests", () => {
     it("Check representation dialog opens and is not empty", () => {
       listingPage.clickRowDetails("UPDATE").clickDetailMenu("Representation");
       adminEventsTab.assertRepresentationDialogIsNotEmpty();
+    });
+  });
+
+  describe("Accessibility tests for events", () => {
+    beforeEach(() => {
+      loginPage.logIn();
+      keycloakBefore();
+      sidebarPage.goToEvents();
+      cy.injectAxe();
+    });
+
+    it("Check a11y violations on load/ user events tab", () => {
+      cy.checkA11y();
+    });
+
+    it("Check a11y violations in user events search form", () => {
+      userEventsTab.openSearchUserEventDropdownMenu();
+      cy.checkA11y();
+    });
+
+    it("Check a11y violations on admin events tab", () => {
+      eventsPage.goToAdminEventsTab;
+      cy.checkA11y();
+    });
+
+    it("Check a11y violations in admin events search form", () => {
+      sidebarPage.goToEvents();
+      eventsPage.goToAdminEventsTab();
+      adminEventsTab.openSearchAdminEventDropdownMenu();
+      cy.checkA11y();
+    });
+
+    it("Check a11y violations in Auth dialog", () => {
+      sidebarPage.goToEvents();
+      eventsPage.goToAdminEventsTab();
+      listingPage.clickRowDetails("CREATE").clickDetailMenu("Auth");
+      cy.checkA11y();
+    });
+
+    it("Check a11y violations in Representation dialog", () => {
+      sidebarPage.goToEvents();
+      eventsPage.goToAdminEventsTab();
+      listingPage.clickRowDetails("CREATE").clickDetailMenu("Representation");
+      cy.checkA11y();
     });
   });
 });

@@ -42,7 +42,7 @@ describe("Group test", () => {
             enabled: true,
           })
           .then((user) => {
-            return { id: user.id, username: username + index };
+            return { id: user.id!, username: username + index };
           });
         return user;
       })
@@ -420,7 +420,8 @@ describe("Group test", () => {
     });
 
     it("Remove attribute", () => {
-      attributesTab.deleteAttribute(1).assertRowItemsEqualTo(1);
+      attributesTab.deleteAttribute(0);
+      attributesTab.assertEmpty();
       groupPage.assertNotificationGroupUpdated();
     });
 
@@ -429,7 +430,7 @@ describe("Group test", () => {
         .addAttribute("key", "value")
         .addAnAttributeButton()
         .revert()
-        .assertRowItemsEqualTo(1);
+        .assertEmpty();
     });
   });
 
@@ -491,6 +492,19 @@ describe("Group test", () => {
 
     it("enable/disable permissions", () => {
       groupDetailPage.enablePermissionSwitch();
+    });
+  });
+
+  describe("Accessibility tests for groups", () => {
+    beforeEach(() => {
+      loginPage.logIn();
+      keycloakBefore();
+      sidebarPage.goToGroups();
+      cy.injectAxe();
+    });
+
+    it("Check a11y violations on load/ groups", () => {
+      cy.checkA11y();
     });
   });
 });

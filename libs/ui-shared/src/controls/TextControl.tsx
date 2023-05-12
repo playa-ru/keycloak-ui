@@ -1,4 +1,4 @@
-import { FormGroup, ValidatedOptions } from "@patternfly/react-core";
+import { ValidatedOptions } from "@patternfly/react-core";
 import {
   FieldPath,
   FieldValues,
@@ -8,12 +8,15 @@ import {
 } from "react-hook-form";
 
 import { KeycloakTextInput } from "../keycloak-text-input/KeycloakTextInput";
+import { FormLabel } from "./FormLabel";
 
 export type TextControlProps<
   T extends FieldValues,
   P extends FieldPath<T> = FieldPath<T>
 > = UseControllerProps<T, P> & {
   label: string;
+  labelIcon?: string;
+  isDisabled?: boolean;
 };
 
 export const TextControl = <
@@ -31,23 +34,23 @@ export const TextControl = <
   });
 
   return (
-    <FormGroup
-      isRequired={required}
+    <FormLabel
+      name={props.name}
       label={props.label}
-      fieldId={props.name}
-      helperTextInvalid={fieldState.error?.message}
-      validated={
-        fieldState.error ? ValidatedOptions.error : ValidatedOptions.default
-      }
+      labelIcon={props.labelIcon}
+      isRequired={required}
+      error={fieldState.error}
     >
       <KeycloakTextInput
         isRequired={required}
         id={props.name}
+        data-testid={props.name}
         validated={
           fieldState.error ? ValidatedOptions.error : ValidatedOptions.default
         }
+        isDisabled={props.isDisabled}
         {...field}
       />
-    </FormGroup>
+    </FormLabel>
   );
 };

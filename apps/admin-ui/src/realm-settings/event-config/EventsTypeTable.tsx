@@ -1,7 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Button, ToolbarItem } from "@patternfly/react-core";
 
-import { KeycloakDataTable } from "../../components/table-toolbar/KeycloakDataTable";
+import {
+  Action,
+  KeycloakDataTable,
+} from "../../components/table-toolbar/KeycloakDataTable";
 import { ListEmptyState } from "../../components/list-empty-state/ListEmptyState";
 
 export type EventType = {
@@ -9,6 +12,7 @@ export type EventType = {
 };
 
 type EventsTypeTableProps = {
+  ariaLabelKey?: string;
   eventTypes: string[];
   addTypes?: () => void;
   onSelect?: (value: EventType[]) => void;
@@ -16,6 +20,7 @@ type EventsTypeTableProps = {
 };
 
 export function EventsTypeTable({
+  ariaLabelKey = "userEventsRegistered",
   eventTypes,
   addTypes,
   onSelect,
@@ -29,7 +34,7 @@ export function EventsTypeTable({
   }));
   return (
     <KeycloakDataTable
-      ariaLabelKey="userEventsRegistered"
+      ariaLabelKey={ariaLabelKey}
       searchPlaceholderKey="realm-settings:searchEventType"
       loader={data}
       onSelect={onSelect ? onSelect : undefined}
@@ -50,7 +55,7 @@ export function EventsTypeTable({
               {
                 title: t("common:remove"),
                 onRowClick: onDelete,
-              },
+              } as Action<EventType>,
             ]
       }
       columns={[

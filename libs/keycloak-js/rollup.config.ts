@@ -19,10 +19,10 @@ function defineOptions({
 }: DefineOptionsArgs): RollupOptions[] {
   const sourceDir = "src";
   const targetDir = "dist";
-  const commonOptions: RollupOptions = {
+  const commonOptions = {
     input: path.join(sourceDir, `${file}.js`),
     plugins: [commonjs(), nodeResolve()],
-  };
+  } satisfies RollupOptions;
 
   const umdOutput: OutputOptions = {
     format: "umd",

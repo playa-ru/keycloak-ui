@@ -11,8 +11,10 @@ import { useState } from "react";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-import { HelpItem } from "../../components/help-enabler/HelpItem";
+import { HelpItem } from "ui-shared";
+import { KeycloakTextArea } from "../../components/keycloak-text-area/KeycloakTextArea";
 import { KeycloakTextInput } from "../../components/keycloak-text-input/KeycloakTextInput";
+import { FormGroupField } from "../component/FormGroupField";
 import { SwitchField } from "../component/SwitchField";
 import { TextField } from "../component/TextField";
 
@@ -121,12 +123,26 @@ const Fields = ({ readOnly }: DiscoverySettingsProps) => {
             data-testid="useJwksUrl"
             isReadOnly={readOnly}
           />
-          {useJwks === "true" && (
+          {useJwks === "true" ? (
             <TextField
               field="config.jwksUrl"
               label="jwksUrl"
               isReadOnly={readOnly}
             />
+          ) : (
+            <>
+              <FormGroupField label="validatingPublicKey">
+                <KeycloakTextArea
+                  data-testid="validatingPublicKey"
+                  {...register("config.publicKeySignatureVerifier")}
+                />
+              </FormGroupField>
+              <TextField
+                field="config.publicKeySignatureVerifierKeyId"
+                label="validatingPublicKeyId"
+                isReadOnly={readOnly}
+              />
+            </>
           )}
         </>
       )}
@@ -141,7 +157,7 @@ const Fields = ({ readOnly }: DiscoverySettingsProps) => {
           label={t("pkceMethod")}
           labelIcon={
             <HelpItem
-              helpText="identity-providers-help:pkceMethod"
+              helpText={t("identity-providers-help:pkceMethod")}
               fieldLabelId="identity-providers:pkceMethod"
             />
           }

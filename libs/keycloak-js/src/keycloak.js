@@ -21,6 +21,15 @@ if (typeof Promise === 'undefined') {
     throw Error('Keycloak requires an environment that supports Promises. Make sure that you include the appropriate polyfill.');
 }
 
+var loggedConstructorDeprecation = false;
+
+function logConstructorDeprecation() {
+    if (!loggedConstructorDeprecation) {
+        loggedConstructorDeprecation = true;
+        console.warn('[KEYCLOAK] Instantiation using the `Keycloak` function has been deprecated and support will be removed in future versions. Use the `new` operator to create an instance instead.');
+    }
+}
+
 var loggedPromiseDeprecation = false;
 
 function logPromiseDeprecation() {
@@ -32,6 +41,7 @@ function logPromiseDeprecation() {
 
 function Keycloak (config) {
     if (!(this instanceof Keycloak)) {
+        logConstructorDeprecation();
         return new Keycloak(config);
     }
 
@@ -1340,7 +1350,7 @@ function Keycloak (config) {
         if (!type || type == 'default') {
             return {
                 login: function(options) {
-                    window.location.replace(kc.createLoginUrl(options));
+                    window.location.assign(kc.createLoginUrl(options));
                     return createPromise().promise;
                 },
 
@@ -1350,7 +1360,7 @@ function Keycloak (config) {
                 },
 
                 register: function(options) {
-                    window.location.replace(kc.createRegisterUrl(options));
+                    window.location.assign(kc.createRegisterUrl(options));
                     return createPromise().promise;
                 },
 
@@ -1418,6 +1428,8 @@ function Keycloak (config) {
                 return formatCordovaOptions(cordovaOptions);
             };
 
+            var cordovaRedirectUri = kc.redirectUri || 'http://localhost';
+            
             return {
                 login: function(options) {
                     var promise = createPromise();
@@ -1434,7 +1446,7 @@ function Keycloak (config) {
                     };
 
                     ref.addEventListener('loadstart', function(event) {
-                        if (event.url.indexOf('http://localhost') == 0) {
+                        if (event.url.indexOf(cordovaRedirectUri) == 0) {
                             var callback = parseCallback(event.url);
                             processCallback(callback, promise);
                             closeBrowser();
@@ -1444,7 +1456,7 @@ function Keycloak (config) {
 
                     ref.addEventListener('loaderror', function(event) {
                         if (!completed) {
-                            if (event.url.indexOf('http://localhost') == 0) {
+                            if (event.url.indexOf(cordovaRedirectUri) == 0) {
                                 var callback = parseCallback(event.url);
                                 processCallback(callback, promise);
                                 closeBrowser();
@@ -1476,13 +1488,13 @@ function Keycloak (config) {
                     var error;
 
                     ref.addEventListener('loadstart', function(event) {
-                        if (event.url.indexOf('http://localhost') == 0) {
+                        if (event.url.indexOf(cordovaRedirectUri) == 0) {
                             ref.close();
                         }
                     });
 
                     ref.addEventListener('loaderror', function(event) {
-                        if (event.url.indexOf('http://localhost') == 0) {
+                        if (event.url.indexOf(cordovaRedirectUri) == 0) {
                             ref.close();
                         } else {
                             error = true;
@@ -1508,7 +1520,7 @@ function Keycloak (config) {
                     var cordovaOptions = createCordovaOptions(options);
                     var ref = cordovaOpenWindowWrapper(registerUrl, '_blank', cordovaOptions);
                     ref.addEventListener('loadstart', function(event) {
-                        if (event.url.indexOf('http://localhost') == 0) {
+                        if (event.url.indexOf(cordovaRedirectUri) == 0) {
                             ref.close();
                             var oauth = parseCallback(event.url);
                             processCallback(oauth, promise);
@@ -1522,7 +1534,7 @@ function Keycloak (config) {
                     if (typeof accountUrl !== 'undefined') {
                         var ref = cordovaOpenWindowWrapper(accountUrl, '_blank', 'location=no');
                         ref.addEventListener('loadstart', function(event) {
-                            if (event.url.indexOf('http://localhost') == 0) {
+                            if (event.url.indexOf(cordovaRedirectUri) == 0) {
                                 ref.close();
                             }
                         });
@@ -1532,7 +1544,7 @@ function Keycloak (config) {
                 },
 
                 redirectUri: function(options) {
-                    return 'http://localhost';
+                    return cordovaRedirectUri;
                 }
             }
         }

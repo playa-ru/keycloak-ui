@@ -22,6 +22,8 @@
   "acceptsPromptNone": "This is just used together with Identity Provider Authenticator or when kc_idp_hint points to this identity provider. In case that client sends a request with prompt=none and user is not yet authenticated, the error will not be directly returned to client, but the request with prompt=none will be forwarded to this identity provider.",
   "validateSignature": "Enable/disable signature validation of external IDP signatures.",
   "useJwksUrl": "If the switch is on, identity provider public keys will be downloaded from given JWKS URL. This allows great flexibility because new keys will be always re-downloaded again when identity provider generates new keypair. If the switch is off, public key (or certificate) from the Keycloak DB is used, so when the identity provider keypair changes, you always need to import the new key to the Keycloak DB as well.",
+  "validatingPublicKey": "The public key in PEM format that must be used to verify external IDP signatures.",
+  "validatingPublicKeyId": "Explicit ID of the validating public key given above if the key ID. Leave blank if the key above should be used always, regardless of key ID specified by external IDP; set it if the key should only be used for verifying if the key ID from external IDP matches.",
   "jwksUrl": "URL where identity provider keys in JWK format are stored. See JWK specification for more details. If you use external Keycloak identity provider, you can use URL like 'http://broker-keycloak:8180/realms/test/protocol/openid-connect/certs' assuming your brokered Keycloak is running on 'http://broker-keycloak:8180' and its realm is 'test' .",
   "pkceEnabled": "Use PKCE (Proof of Key-code exchange) for IdP Brokering",
   "pkceMethod": "PKCE Method to use",
@@ -115,27 +117,5 @@
   },
   "linkedin": {
     "profileProjection": "Projection parameter for profile request. Leave empty for default projection."
-  },
-  "mailru": {
-    "hostedDomain": "Set 'hd' query parameter when logging in with MailRu. MailRu will list accounts only for this domain. Keycloak validates that the returned identity token has a claim for this domain. When '*' is entered, any hosted account can be used. Comma ',' separated list of domains is supported."
-  },
-  "yandex": {
-    "hostedDomain": "Set 'hd' query parameter when logging in with Yandex. Yandex will list accounts only for this domain. Keycloak validates that the returned identity token has a claim for this domain. When '*' is entered, any hosted account can be used. Comma ',' separated list of domains is supported."
-  },
-  "ok": {
-    "publicKey": "Application's public key",
-    "emailRequired": "Email required in your profile"
-  },
-  "vk": {
-    "version": "VK API version",
-    "emailRequired": "Email required in your profile",
-    "fetchedFields": "Provide additional fields which would be fetched using the profile request"
-  },
-  "esiajcp": {
-    "host": "ESIA Host",
-    "algorithm": "Algorithm",
-    "keyStore": "Container type",
-    "ksAlias": "Container ID",
-    "password": "Password to Primary Key"
   }
 }

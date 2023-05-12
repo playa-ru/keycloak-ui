@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { FormGroup } from "@patternfly/react-core";
 
 import type { ComponentProps } from "./components";
-import { HelpItem } from "../../components/help-enabler/HelpItem";
+import { HelpItem } from "ui-shared";
 import { MultiLineInput } from "../multi-line-input/MultiLineInput";
 import { convertToName } from "./DynamicComponents";
 
@@ -11,6 +11,7 @@ export const MultiValuedStringComponent = ({
   label,
   defaultValue,
   helpText,
+  stringify,
   isDisabled = false,
 }: ComponentProps) => {
   const { t } = useTranslation("dynamic");
@@ -32,7 +33,7 @@ export const MultiValuedStringComponent = ({
         addButtonLabel={t("addMultivaluedLabel", {
           fieldLabel: t(label!).toLowerCase(),
         })}
-        stringify
+        stringify={stringify}
       />
     </FormGroup>
   );

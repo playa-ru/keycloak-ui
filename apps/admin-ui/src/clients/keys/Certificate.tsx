@@ -1,8 +1,9 @@
-import { useTranslation } from "react-i18next";
-import { FormGroup, GenerateId } from "@patternfly/react-core";
-
 import type CertificateRepresentation from "@keycloak/keycloak-admin-client/lib/defs/certificateRepresentation";
-import { HelpItem } from "../../components/help-enabler/HelpItem";
+import { FormGroup } from "@patternfly/react-core";
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
+
+import { HelpItem } from "ui-shared";
 import { KeycloakTextArea } from "../../components/keycloak-text-area/KeycloakTextArea";
 
 type CertificateProps = Omit<CertificateDisplayProps, "id"> & {
@@ -30,26 +31,22 @@ const CertificateDisplay = ({ id, keyInfo }: CertificateDisplayProps) => {
 
 export const Certificate = ({ keyInfo, plain = false }: CertificateProps) => {
   const { t } = useTranslation("clients");
-  return (
-    <GenerateId prefix="certificate">
-      {(id) =>
-        plain ? (
-          <CertificateDisplay id={id} keyInfo={keyInfo} />
-        ) : (
-          <FormGroup
-            label={t("certificate")}
-            fieldId={id}
-            labelIcon={
-              <HelpItem
-                helpText="clients-help:certificate"
-                fieldLabelId={`clients:${id}`}
-              />
-            }
-          >
-            <CertificateDisplay id={id} keyInfo={keyInfo} />
-          </FormGroup>
-        )
+  const id = useId();
+
+  return plain ? (
+    <CertificateDisplay id={id} keyInfo={keyInfo} />
+  ) : (
+    <FormGroup
+      label={t("certificate")}
+      fieldId={id}
+      labelIcon={
+        <HelpItem
+          helpText={t("clients-help:certificate")}
+          fieldLabelId={`clients:${id}`}
+        />
       }
-    </GenerateId>
+    >
+      <CertificateDisplay id={id} keyInfo={keyInfo} />
+    </FormGroup>
   );
 };

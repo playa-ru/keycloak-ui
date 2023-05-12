@@ -979,7 +979,10 @@ export class Clients extends Resource<{ realm?: string }> {
     },
   });
 
-  public uploadKey = this.makeUpdateRequest<{ id: string; attr: string }, any>({
+  public uploadKey = this.makeUpdateRequest<
+    { id: string; attr: string },
+    FormData
+  >({
     method: "POST",
     path: "/{id}/certificates/{attr}/upload",
     urlParamKeys: ["id", "attr"],

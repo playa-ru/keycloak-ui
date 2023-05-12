@@ -1,3 +1,5 @@
+import Select from "../../../../forms/Select";
+
 export default class UserProfile {
   private userProfileTab = "rs-user-profile-tab";
   private attributesTab = "attributesTab";
@@ -15,9 +17,10 @@ export default class UserProfile {
   private newAttributeRequiredFor = 'input[name="roles"]';
   private newAttributeRequiredWhen = 'input[name="requiredWhen"]';
   private newAttributeEmptyValidators = ".kc-emptyValidators";
-  private newAttributeAnnotationKey = 'input[name="annotations[0].key"]';
-  private newAttributeAnnotationValue = 'input[name="annotations[0].value"]';
-  private validatorRolesList = 'tbody [data-label="Role name"]';
+  private newAttributeAnnotationBtn = "annotations-add-row";
+  private newAttributeAnnotationKey = "annotations-key";
+  private newAttributeAnnotationValue = "annotations-value";
+  private validatorRolesList = "#validator";
   private validatorsList = 'tbody [data-label="name"]';
   private saveNewAttributeBtn = "attribute-create";
   private addValidatorBtn = "addValidator";
@@ -104,15 +107,16 @@ export default class UserProfile {
     cy.get(this.newAttributeRequiredFor).first().check({ force: true });
     cy.get(this.newAttributeRequiredWhen).first().check();
     cy.get(this.newAttributeEmptyValidators).contains("No validators.");
-    cy.get(this.newAttributeAnnotationKey).type("test");
-    cy.get(this.newAttributeAnnotationValue).type("123");
+    cy.findByTestId(this.newAttributeAnnotationBtn).click();
+    cy.findByTestId(this.newAttributeAnnotationKey).type("test");
+    cy.findByTestId(this.newAttributeAnnotationValue).type("123");
     return this;
   }
 
   addValidator() {
-    cy.get(this.validatorRolesList).contains("email").click();
+    cy.findByTestId(this.addValidatorBtn).click();
+    Select.selectItem(cy.get(this.validatorRolesList), "email");
     cy.findByTestId(this.saveValidatorBtn).click();
-    cy.get(this.validatorDialogCloseBtn).click();
     return this;
   }
 
@@ -124,7 +128,7 @@ export default class UserProfile {
 
   cancelAddingValidator() {
     cy.findByTestId(this.addValidatorBtn).click();
-    cy.get(this.validatorRolesList).contains("email").click();
+    Select.selectItem(cy.get(this.validatorRolesList), "email");
     cy.findByTestId(this.cancelAddingValidatorBtn).click();
     return this;
   }

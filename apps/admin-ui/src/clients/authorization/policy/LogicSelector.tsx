@@ -2,11 +2,15 @@ import { useTranslation } from "react-i18next";
 import { Controller, useFormContext } from "react-hook-form";
 import { FormGroup, Radio } from "@patternfly/react-core";
 
-import { HelpItem } from "../../../components/help-enabler/HelpItem";
+import { HelpItem } from "ui-shared";
 
 const LOGIC_TYPES = ["POSITIVE", "NEGATIVE"] as const;
 
-export const LogicSelector = () => {
+type LogicSelectorProps = {
+  isDisabled: boolean;
+};
+
+export const LogicSelector = ({ isDisabled }: LogicSelectorProps) => {
   const { t } = useTranslation("clients");
   const { control } = useFormContext();
 
@@ -14,7 +18,10 @@ export const LogicSelector = () => {
     <FormGroup
       label={t("logic")}
       labelIcon={
-        <HelpItem helpText="clients-help:logic" fieldLabelId="clients:logic" />
+        <HelpItem
+          helpText={t("clients-help:logic")}
+          fieldLabelId="clients:logic"
+        />
       }
       fieldId="logic"
       hasNoPaddingTop
@@ -36,6 +43,7 @@ export const LogicSelector = () => {
                 onChange={() => field.onChange(type)}
                 label={t(`logicType.${type.toLowerCase()}`)}
                 className="pf-u-mb-md"
+                isDisabled={isDisabled}
               />
             ))}
           </>

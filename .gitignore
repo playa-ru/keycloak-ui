@@ -39,3 +39,11 @@ server
 dist
 dist-ssr
 *.local
+
+# Distribution
+*.tgz
+npm-dist
+/keycloak-js-parent.iml
+/libs/keycloak-js/keycloak-js-adapter.iml
+/libs/keycloak-admin-client/keycloak-js-admin-client.iml
+/apps/account-ui/keycloak-account-ui.iml

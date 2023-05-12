@@ -2,12 +2,16 @@ import { FormGroup } from "@patternfly/react-core";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-import { HelpItem } from "../../components/help-enabler/HelpItem";
+import { HelpItem } from "ui-shared";
 import { KeycloakTextInput } from "../../components/keycloak-text-input/KeycloakTextInput";
 import { convertAttributeNameToForm } from "../../util";
 import { FormFields } from "../ClientDetails";
 
-export const ApplicationUrls = () => {
+type ApplicationUrlsProps = {
+  isDisabled?: boolean;
+};
+
+export const ApplicationUrls = (props: ApplicationUrlsProps) => {
   const { t } = useTranslation("clients");
   const { register } = useFormContext();
 
@@ -18,7 +22,7 @@ export const ApplicationUrls = () => {
         fieldId="logoUrl"
         labelIcon={
           <HelpItem
-            helpText="clients-help:logoUrl"
+            helpText={t("clients-help:logoUrl")}
             fieldLabelId="clients:logoUrl"
           />
         }
@@ -30,6 +34,7 @@ export const ApplicationUrls = () => {
           {...register(
             convertAttributeNameToForm<FormFields>("attributes.logoUri")
           )}
+          {...props}
         />
       </FormGroup>
       <FormGroup
@@ -37,7 +42,7 @@ export const ApplicationUrls = () => {
         fieldId="policyUrl"
         labelIcon={
           <HelpItem
-            helpText="clients-help:policyUrl"
+            helpText={t("clients-help:policyUrl")}
             fieldLabelId="clients:policyUrl"
           />
         }
@@ -49,6 +54,7 @@ export const ApplicationUrls = () => {
           {...register(
             convertAttributeNameToForm<FormFields>("attributes.policyUri")
           )}
+          {...props}
         />
       </FormGroup>
       <FormGroup
@@ -56,7 +62,7 @@ export const ApplicationUrls = () => {
         fieldId="termsOfServiceUrl"
         labelIcon={
           <HelpItem
-            helpText="clients-help:termsOfServiceUrl"
+            helpText={t("clients-help:termsOfServiceUrl")}
             fieldLabelId="clients:termsOfServiceUrl"
           />
         }
@@ -68,6 +74,7 @@ export const ApplicationUrls = () => {
           {...register(
             convertAttributeNameToForm<FormFields>("attributes.tosUri")
           )}
+          {...props}
         />
       </FormGroup>
     </>
