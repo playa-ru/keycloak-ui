@@ -52,3 +52,5 @@ npm-dist
 /apps/admin-ui/target/
 /apps/admin-ui/keycloak-admin-ui.iml
 /.idea/
+!/libs/keycloak-js/dist/keycloak-authz.d.ts
+!/libs/keycloak-js/dist/keycloak.d.ts
