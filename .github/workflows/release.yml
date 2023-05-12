@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
           echo "Tag name from github.ref_name: ${{  github.ref_name }}"
-          mvn versions:set -DnewVersion=${{env.RELEASE_VERSION}}
+          mvn versions:set -DnewVersion=$GITHUB_REF_NAME
           cat pom.xml
       - name: Publish package
         run: mvn --batch-mode deploy
