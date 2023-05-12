@@ -54,3 +54,4 @@ npm-dist
 /.idea/
 !/libs/keycloak-js/dist/keycloak-authz.d.ts
 !/libs/keycloak-js/dist/keycloak.d.ts
+/libs/keycloak-js/keycloak-js-adapter.iml
