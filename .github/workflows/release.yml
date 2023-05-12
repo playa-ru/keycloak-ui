@@ -16,9 +16,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Set Version
+        run: mvn versions:set -DnewVersion=${{env.RELEASE_VERSION}}
       - name: Publish package
-        run:
-          - mvn versions:set -DnewVersion=${{env.RELEASE_VERSION}}
-          - mvn --batch-mode deploy
+        run: mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
