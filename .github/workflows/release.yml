@@ -18,9 +18,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Set Version
-        run: mvn versions:set -DnewVersion=${{env.RELEASE_VERSION}}
-      - name: Cat Version
-        run: cat pom.xml
+        run: |
+          mvn versions:set -DnewVersion=${{env.RELEASE_VERSION}}
+          cat pom.xml
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
