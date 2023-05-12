@@ -25,6 +25,11 @@
         <module>libs/keycloak-js</module>
     </modules>
 
+    <properties>
+        <!-- Frontend -->
+        <node.version>v18.15.0</node.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
