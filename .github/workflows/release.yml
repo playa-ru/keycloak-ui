@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "*.*.*.rsp"
+      - "*.*.*.rsp-*"
 jobs:
   publish:
     runs-on: ubuntu-latest
