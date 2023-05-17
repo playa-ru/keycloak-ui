@@ -117,5 +117,27 @@
   },
   "linkedin": {
     "profileProjection": "Projection parameter for profile request. Leave empty for default projection."
+  },
+  "mailru": {
+    "hostedDomain": "Set 'hd' query parameter when logging in with MailRu. MailRu will list accounts only for this domain. Keycloak validates that the returned identity token has a claim for this domain. When '*' is entered, any hosted account can be used. Comma ',' separated list of domains is supported."
+  },
+  "yandex": {
+    "hostedDomain": "Set 'hd' query parameter when logging in with Yandex. Yandex will list accounts only for this domain. Keycloak validates that the returned identity token has a claim for this domain. When '*' is entered, any hosted account can be used. Comma ',' separated list of domains is supported."
+  },
+  "ok": {
+    "publicKey": "Application's public key",
+    "emailRequired": "Email required in your profile"
+  },
+  "vk": {
+    "version": "VK API version",
+    "emailRequired": "Email required in your profile",
+    "fetchedFields": "Provide additional fields which would be fetched using the profile request"
+  },
+  "esiajcp": {
+    "host": "ESIA Host",
+    "algorithm": "Algorithm",
+    "keyStore": "Container type",
+    "ksAlias": "Container ID",
+    "password": "Password to Primary Key"
   }
 }

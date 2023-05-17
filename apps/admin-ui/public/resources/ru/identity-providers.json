@@ -46,5 +46,27 @@
   "postBrokerLoginFlowAlias": "Сценарий после входа",
   "mapperType": "Тип сопоставления",
   "selectRole": "Выберите роль",
-  "userAttribute": "Атрибут пользователя"
+  "userAttribute": "Атрибут пользователя",
+  "mailru": {
+    "hostedDomain": "Белый список доменов"
+  },
+  "yandex": {
+    "hostedDomain": "Белый список доменов"
+  },
+  "ok": {
+    "publicKey": "Публичный ключ приложения",
+    "emailRequired": "Электронная почта обязательна"
+  },
+  "vk": {
+    "version": "Версия API",
+    "emailRequired": "Электронная почта обязательна",
+    "fetchedFields": "Дополнительные поля из профиля пользователя"
+  },
+  "esiajcp": {
+    "host": "Хост ЕСИА",
+    "algorithm": "Алгоритм",
+    "keyStore": "Тип контейнера",
+    "ksAlias": "ID контейнера",
+    "password": "Пароль к закрытому ключу"
+  }
 }

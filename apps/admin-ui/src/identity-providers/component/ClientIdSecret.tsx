@@ -10,9 +10,11 @@ import { PasswordInput } from "../../components/password-input/PasswordInput";
 export const ClientIdSecret = ({
   secretRequired = true,
   create = true,
+  enableClientSecret = true,
 }: {
   secretRequired?: boolean;
   create?: boolean;
+  enableClientSecret?: boolean;
 }) => {
   const { t } = useTranslation("identity-providers");
 
@@ -47,40 +49,43 @@ export const ClientIdSecret = ({
           {...register("config.clientId", { required: true })}
         />
       </FormGroup>
-      <FormGroup
-        label={t("clientSecret")}
-        labelIcon={
-          <HelpItem
-            helpText={t("identity-providers-help:clientSecret")}
-            fieldLabelId="identity-providers:clientSecret"
-          />
-        }
-        fieldId="kc-client-secret"
-        isRequired={secretRequired}
-        validated={
-          errors.config?.clientSecret
-            ? ValidatedOptions.error
-            : ValidatedOptions.default
-        }
-        helperTextInvalid={t("common:required")}
-      >
-        {create ? (
-          <PasswordInput
-            isRequired={secretRequired}
-            id="kc-client-secret"
-            data-testid="clientSecret"
-            {...register("config.clientSecret", { required: secretRequired })}
-          />
-        ) : (
-          <KeycloakTextInput
-            isRequired={secretRequired}
-            type="password"
-            id="kc-client-secret"
-            data-testid="clientSecret"
-            {...register("config.clientSecret", { required: secretRequired })}
-          />
-        )}
-      </FormGroup>
+
+      {enableClientSecret && (
+        <FormGroup
+          label={t("clientSecret")}
+          labelIcon={
+            <HelpItem
+              helpText={t("identity-providers-help:clientSecret")}
+              fieldLabelId="identity-providers:clientSecret"
+            />
+          }
+          fieldId="kc-client-secret"
+          isRequired={secretRequired}
+          validated={
+            errors.config?.clientSecret
+              ? ValidatedOptions.error
+              : ValidatedOptions.default
+          }
+          helperTextInvalid={t("common:required")}
+        >
+          {create ? (
+            <PasswordInput
+              isRequired={secretRequired}
+              id="kc-client-secret"
+              data-testid="clientSecret"
+              {...register("config.clientSecret", {required: secretRequired})}
+            />
+          ) : (
+            <KeycloakTextInput
+              isRequired={secretRequired}
+              type="password"
+              id="kc-client-secret"
+              data-testid="clientSecret"
+              {...register("config.clientSecret", {required: secretRequired})}
+            />
+          )}
+        </FormGroup>
+      )}
     </>
   );
 };
