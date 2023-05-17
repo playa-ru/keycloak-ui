@@ -19,10 +19,8 @@ jobs:
           distribution: 'temurin'
       - name: Set Version
         run: |
-          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+          echo "Tag name: $GITHUB_REF_NAME"
           mvn versions:set -DnewVersion=$GITHUB_REF_NAME
-          cat pom.xml
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
